@@ -26,10 +26,12 @@ add R,#		; reg <- Reg+num_Cte
 inc R		; reg <-reg+1
 dec R		; reg <- reg-1
 jz  R,#		; if R=0: IP=#
+mov y,&x  ; mem <- reg
+mov &y,x  ; mem <- reg
 
 codificadas
 -----------
-  0000	0	end
+  0000	0	end x
   0001	1	jmp #
   0010	2	mov x,#
   0011	3	mov y,#
@@ -47,5 +49,7 @@ codificadas
   1111	15	dec y
 1 0000	16	jz x,#
 1 0001	17	jz y,#
+1 0010  18  mov y [x]
+1 0011  19  mov [x] y
 
 

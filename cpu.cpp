@@ -163,6 +163,19 @@ int main(int argc, char ** argv) {
 				}
 
 			break;
+
+			case 18:
+				// mov(y,&x) instruction
+				Yreg = memory[Xreg];
+				IPreg++;
+			break;
+
+			case 19:
+				// mov(&x,y) instruction
+				memory[Xreg] = Yreg;
+				IPreg++;
+			break;
+
 			default:
 				IPreg++;
 		}
