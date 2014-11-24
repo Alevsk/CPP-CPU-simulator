@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -30,9 +31,7 @@ int main(int argc, char ** argv) {
 	int memory[1024];
 	initMemory(memory);
 	int OSmemory = 512;
-	//int program[] = {2,5,4,501,4,513,3,7,5,514,8,10,10,4,512,0};
-	//int program[] = {12,12,13,14,15,17,0,0};
-	int program[] = {1,1,2,12,3,12,4,12,5,12,6,12,7,12,8,9,10,12,11,12,12,13,1,16,1,0,14,15,16,12,17,12,0,17,12};
+	int program[] = {2,200,4,195,2,209,4,196,2,4,197,2,4,198,2,23,4,200,2,12,4,201,2,80,4,202,2,50,4,203,2,70,4,204,2,99,4,205,2,205,4,206,2,17,4,207,2,1,4,208,2,148,4,209,6,195,18,5,199,6,195,7,196,14,16,69,15,1,63,15,17,106,1,74,6,195,12,4,195,18,5,198,6,199,4,197,14,15,16,94,17,100,1,86,6,197,4,199,1,59,7,198,5,199,1,59,0};
 	int programSize = (sizeof(program)/sizeof(program[0]));
 	int displacement = OSmemory + programSize;
  
@@ -42,6 +41,7 @@ int main(int argc, char ** argv) {
 	int Xreg = 0, Yreg = 0, IPreg = 0;
 
 	for(; IPreg < programSize;) {
+		//sleep(1);
 
 		cout<<"\nInstruccion: "<<memory[IPreg]<<" ip: "<<IPreg<<"\n";
 		switch(memory[IPreg]){
@@ -71,14 +71,14 @@ int main(int argc, char ** argv) {
 			case 4:
 				// MOV(m,x) instruction
 				memory[memory[IPreg+1] + displacement] = Xreg;
-				printMemory(memory,500,520);
+				printMemory(memory,0,1023);
 				IPreg+=2;
 			break;
 
 			case 5:
 				// MOV(m,y) instruction
 				memory[memory[IPreg+1] + displacement] = Yreg;
-				printMemory(memory,500,520);
+				printMemory(memory,0,1023);
 				IPreg+=2;
 			break;
 
@@ -166,13 +166,13 @@ int main(int argc, char ** argv) {
 
 			case 18:
 				// mov(y,&x) instruction
-				Yreg = memory[Xreg];
+				Yreg = memory[Xreg + displacement];
 				IPreg++;
 			break;
 
 			case 19:
 				// mov(&x,y) instruction
-				memory[Xreg] = Yreg;
+				memory[Xreg + displacement] = Yreg;
 				IPreg++;
 			break;
 
